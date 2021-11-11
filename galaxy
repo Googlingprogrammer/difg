@@ -1,0 +1,56 @@
+//based on https://www.youtube.com/watch?v=F-3Mt5avI2o
+{
+  var w = 1000,
+      h = 1000,
+      rings = 1500,
+      galaxyw = 30,
+      gratio = 0.5,
+      sizedif = 0.5,
+      time = 0,
+      speed = 0.000005,
+      stars = [],
+      starsize = 2;
+}
+  
+function setup() {
+  createCanvas(w, h);
+  frameRate(30);
+  for(let i=0;i<rings;i++) {
+    const grad = galaxyw + i*sizedif;
+    stars.push(new Star(grad))
+  }
+}
+
+function draw() {
+  time += speed;
+  background(2, 10, 28);
+  translate(w/2,h/2);
+  
+  for(let i = 0; i < rings; i++){
+    rotate(time);
+    stars[i].draw();
+  }
+  
+}
+
+class Star {
+  constructor(grad) {
+    this.grad = grad;
+    this.gsmalrad = grad*gratio;
+    this.t = random(TAU);
+    this.deltaT = 0.01;
+    this.size =random(0.25,3);
+  }
+
+  draw() {
+    this.t += this.deltaT;
+    const x = (this.grad/2)*cos(this.t);
+    const y = (this.gsmalrad/2)*sin(this.t);
+    
+    var scale = this.size + sin(this.t*2)*starsize;
+    noStroke();
+    fill(248, 252, 204);
+    ellipse(x, y, scale, scale);
+  }
+}
+
